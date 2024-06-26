@@ -100,6 +100,10 @@ function whatsmyip {
     (Invoke-WebRequest http://ifconfig.me/ip).Content
 }
 
+function winutil {
+	Invoke-WebRequest -useb https://christitus.com/win | Invoke-Expression
+}
+
 # System Utilities
 function Uptime {
     if ($PSVersionTable.PSVersion.Major -eq 5) {
@@ -182,10 +186,15 @@ function lazyg {
 }
 
 # Quick Access to System Information
-function sysinfo { Get-ComputerInfo }
+function sysinfo {
+    Get-ComputerInfo
+}
 
 # Networking Utilities
-function flushdns { Clear-DnsClientCache }
+function flushdns {
+	Clear-DnsClientCache
+	Write-Host "DNS has been flushed"
+}
 
 # Enhanced PowerShell Experience
 Set-PSReadLineOption -Colors @{
@@ -194,8 +203,20 @@ Set-PSReadLineOption -Colors @{
     String = 'DarkCyan'
 }
 
+function Get-Theme {
+    if (Test-Path -Path $PROFILE.CurrentUserAllHosts -PathType leaf) {
+        $existingTheme = Select-String -Raw -Path $PROFILE.CurrentUserAllHosts -Pattern "oh-my-posh init pwsh --config"
+        if ($null -ne $existingTheme) {
+            Invoke-Expression $existingTheme
+            return
+        }
+    } else {
+        oh-my-posh init pwsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/cobalt2.omp.json | Invoke-Expression
+    }
+}
+Get-Theme
+
 ## Final Line to set prompt
-oh-my-posh init pwsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/cobalt2.omp.json | Invoke-Expression
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
 } else {
