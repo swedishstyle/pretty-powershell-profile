@@ -37,7 +37,6 @@ function Update-Profile {
         Remove-Item "$env:temp/Microsoft.PowerShell_profile.ps1" -ErrorAction SilentlyContinue
     }
 }
-Update-Profile
 
 function Update-PowerShell {
     if (-not $global:CanConnectToGitHub) {
@@ -64,15 +63,17 @@ function Update-PowerShell {
         Write-Error "Failed to update PowerShell. Error: $_"
     }
 }
-Update-PowerShell
-
 
 # Admin Check and Prompt Customization
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 function prompt {
-    if ($isAdmin) { "[" + (Get-Location) + "] # " } else { "[" + (Get-Location) + "] $ " }
+    if($isAdmin) {
+        "[" + (Get-Location) + "] # "
+    } else {
+        "[" + (Get-Location) + "] $ "
+    }
 }
-$adminSuffix = if ($isAdmin) { " [ADMIN]" } else { "" }
+$adminSuffix = if($isAdmin) {" [ADMIN]"} else {""}
 $Host.UI.RawUI.WindowTitle = "PowerShell {0}$adminSuffix" -f $PSVersionTable.PSVersion.ToString()
 
 # Utility Functions
