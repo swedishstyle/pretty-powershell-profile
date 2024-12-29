@@ -130,7 +130,6 @@ function winutil {
 }
 
 # System Utilities
-function Uptime {
 function admin {
     if ($args.Count -gt 0) {
         $argList = "& '$args'"
