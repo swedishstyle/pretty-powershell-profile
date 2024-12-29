@@ -105,9 +105,7 @@ function Test-CommandExists {
 }
 
 function Edit-Profile {
-<<<<<<< HEAD
     code $PROFILE.CurrentUserAllHosts
-=======
     vim $PROFILE.CurrentUserAllHosts
 }
 function touch($file) { "" | Out-File $file -Encoding ASCII }
@@ -115,7 +113,6 @@ function ff($name) {
     Get-ChildItem -recurse -filter "*${name}*" -ErrorAction SilentlyContinue | ForEach-Object {
         Write-Output "$($_.FullName)"
     }
->>>>>>> fd0676878905ad3af47d453c9311ddb15fe8560b
 }
 
 # Network Utilities
@@ -133,9 +130,7 @@ function winutil {
 }
 
 # System Utilities
-<<<<<<< HEAD
 function Uptime {
-=======
 function admin {
     if ($args.Count -gt 0) {
         $argList = "& '$args'"
@@ -149,7 +144,6 @@ function admin {
 Set-Alias -Name su -Value admin
 
 function uptime {
->>>>>>> fd0676878905ad3af47d453c9311ddb15fe8560b
     if ($PSVersionTable.PSVersion.Major -eq 5) {
         Get-WmiObject win32_operatingsystem | Select-Object @{Name='LastBootUpTime'; Expression={$_.ConverttoDateTime($_.lastbootuptime)}} | Format-Table -HideTableHeaders
     } else {
@@ -194,8 +188,6 @@ function grep($regex, $dir) {
     $input | select-string $regex
 }
 
-<<<<<<< HEAD
-=======
 function df {
     get-volume
 }
@@ -236,7 +228,6 @@ function nf { param($name) New-Item -ItemType "file" -Path . -Name $name }
 # Directory Management
 function mkcd { param($dir) mkdir $dir -Force; Set-Location $dir }
 
->>>>>>> fd0676878905ad3af47d453c9311ddb15fe8560b
 ### Quality of Life Aliases
 
 # Navigation Shortcuts
@@ -260,8 +251,6 @@ function gc { param($m) git commit -m "$m" }
 
 function gp { git push }
 
-function g { __zoxide_z github }
-
 function gcl { git clone "$args" }
 
 function gcom {
@@ -284,14 +273,11 @@ function flushdns {
 	Clear-DnsClientCache
 	Write-Host "DNS has been flushed"
 }
-<<<<<<< HEAD
-=======
 
 # Clipboard Utilities
 function cpy { Set-Clipboard $args[0] }
 
 function pst { Get-Clipboard }
->>>>>>> fd0676878905ad3af47d453c9311ddb15fe8560b
 
 # Enhanced PowerShell Experience
 Set-PSReadLineOption -Colors @{
@@ -300,8 +286,6 @@ Set-PSReadLineOption -Colors @{
     String = 'DarkCyan'
 }
 
-<<<<<<< HEAD
-=======
 $PSROptions = @{
     ContinuationPrompt = '  '
     Colors             = @{
@@ -325,7 +309,6 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock $scriptblock
 
 
 # Get theme from profile.ps1 or use a default theme
->>>>>>> fd0676878905ad3af47d453c9311ddb15fe8560b
 function Get-Theme {
     if (Test-Path -Path $PROFILE.CurrentUserAllHosts -PathType leaf) {
         $existingTheme = Select-String -Raw -Path $PROFILE.CurrentUserAllHosts -Pattern "oh-my-posh init pwsh --config"
@@ -335,31 +318,13 @@ function Get-Theme {
         }
     } else {
         oh-my-posh init pwsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/cobalt2.omp.json | Invoke-Expression
-<<<<<<< HEAD
     }
 }
 Get-Theme
-=======
     }
 }
 
-## Final Line to set prompt
 Get-Theme
-if (Get-Command zoxide -ErrorAction SilentlyContinue) {
-    Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
-} else {
-    Write-Host "zoxide command not found. Attempting to install via winget..."
-    try {
-        winget install -e --id ajeetdsouza.zoxide
-        Write-Host "zoxide installed successfully. Initializing..."
-        Invoke-Expression (& { (zoxide init powershell | Out-String) })
-    } catch {
-        Write-Error "Failed to install zoxide. Error: $_"
-    }
-}
-
-Set-Alias -Name z -Value __zoxide_z -Option AllScope -Scope Global -Force
-Set-Alias -Name zi -Value __zoxide_zi -Option AllScope -Scope Global -Force
 
 # Help Function
 function Show-Help {
@@ -449,4 +414,3 @@ Use 'Show-Help' to display this help message.
 "@
 }
 Write-Host "Use 'Show-Help' to display help"
->>>>>>> fd0676878905ad3af47d453c9311ddb15fe8560b
