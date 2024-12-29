@@ -321,10 +321,6 @@ function Get-Theme {
     }
 }
 Get-Theme
-    }
-}
-
-Get-Theme
 
 # Help Function
 function Show-Help {
